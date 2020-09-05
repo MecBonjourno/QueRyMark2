@@ -3,6 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import SignIn from '../pages/SignIn'
 import SignUp from '../pages/SignUp'
+import Feed from '../pages/Feed'
+import Identity from '../pages/Identity'
+import Main from '../pages/Main'
+import Profile from '../pages/Profile'
 
 const Auth = createStackNavigator();
 
