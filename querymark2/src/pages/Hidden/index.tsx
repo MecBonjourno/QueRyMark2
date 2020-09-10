@@ -9,9 +9,9 @@ const Feed: React.FC = () => {
 const navigation = useNavigation()
 
     return (
-     <View style={{ flex:1, backgroundColor: '#857623'}}>
-        <Text> Feed </Text>
-        <Button title="Eu estava escondido" onPress={() => navigation.navigate('Hidden')}/>
+     <View style={{ flex:1, backgroundColor: '#e5e5e5'}}>
+        <Text> Hidden </Text>
+        <Button title="Identity" onPress={() => navigation.navigate('Identity')}/>
         </View>
         )
 }

@@ -7,17 +7,17 @@ import { useAuth } from '../hooks/auth'
 
 
 const Routes: React.FC = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
-    // console.log(user)
+    console.log(user)
     // Deixando o Loading em falso por enquanto ja q nao descobri pq q o usuário nao persiste
-    // if(loading){
-    //     return(
-    //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    //         <ActivityIndicator size="large" color="#999" />
-    //     </View>
-    //     );
-    // }
+    if(loading){
+        return(
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="large" color="#999" />
+        </View>
+        );
+    }
     
     return user ? <AppRoutes /> : <AuthRoutes />;
 };
