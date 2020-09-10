@@ -7,9 +7,9 @@ import { useAuth } from '../hooks/auth'
 
 
 const Routes: React.FC = () => {
-    const { user, loading } = useAuth();
+    const { user } = useAuth();
 
-    console.log(user)
+    // console.log(user)
     // Deixando o Loading em falso por enquanto ja q nao descobri pq q o usuário nao persiste
     // if(loading){
     //     return(

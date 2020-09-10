@@ -3,11 +3,12 @@ import { Image, View, KeyboardAvoidingView, Platform, ScrollView, TextInput, Ale
 import {useNavigation} from '@react-navigation/native'
 // import Icon from 'react-native-vector-icons/Feather'
 
+import { useAuth } from '../../hooks/auth'
+// import {} from '../../hooks'
 import getValidationErrors from '../../utils/getValidationErrors'
 
 import * as Yup from 'yup';
 
-import {useAuth} from '../../hooks/auth'
 
 
 import { Form } from '@unform/mobile'
@@ -20,7 +21,7 @@ import logoImg from '../../assets/logoWhite.png'
 
 import { Container, Title, ForgotPassword, ForgotPasswordText, CreateAccountButton, CreateAccountButtonText } from './styles'
 
-interface SignInFormData {
+interface SignInFormDatas {
     email: string,
     password: string
 }
@@ -29,13 +30,14 @@ const SignIn: React.FC = () => {
     const formRef = useRef<FormHandles>(null);
     const passwordRef = useRef<TextInput>(null);
     const navigation = useNavigation();
-    const {signIn, user} = useAuth();
+    const { signIn , user} = useAuth();
 
     console.log(user)
 
-    const handleSignIn = useCallback(async (data: SignInFormData) => {
+    const newHandleSignIn = useCallback(async (data: SignInFormDatas) => {
         try{
             formRef.current?.setErrors({})
+
 
             const schema = Yup.object().shape({
                 email: Yup.string()
@@ -43,6 +45,9 @@ const SignIn: React.FC = () => {
                 .email('digite um email válido'),
                 password: Yup.string().required('Senha Obrigatória'),
             });
+
+            // console.log(schema)
+            
 
             await schema.validate(data, {
                 abortEarly: false,
@@ -53,9 +58,15 @@ const SignIn: React.FC = () => {
                 password: data.password
             });
 
+            // await useAuth().signIn({
+            //     email: data.email,
+            //     password: data.password
+            // })
+
             // history.push('/dashboard');
 
         } catch(err) {
+            console.log(err)
 
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err)
@@ -68,7 +79,7 @@ const SignIn: React.FC = () => {
             Alert.alert("Error Auth", "Erro na Auth")
         } 
       
-    }, [signIn]);
+    }, []);
 
 
     return (
@@ -81,16 +92,21 @@ const SignIn: React.FC = () => {
               <Title> Faça Login </Title>
             </View>
 
-            <Form ref={formRef} onSubmit={handleSignIn}>
-            <Input autoCorrect={false} autoCapitalize="none" keyboardType="email-address" name="email" icon="mail" placeholder="E-mail" returnKeyType="next" onSubmitEditing={() => {
-                passwordRef.current?.focus();
-                }}/>
+            <Form ref={formRef} onSubmit={newHandleSignIn}>
+            <Input autoCorrect={false} autoCapitalize="none" keyboardType="email-address" name="email" icon="mail" placeholder="E-mail" returnKeyType="next" 
+            // onSubmitEditing={() => {
+            //     passwordRef.current?.focus();
+            //     }}
+                />
 
-            <Input name="password" icon="lock" placeholder="Senha" secureTextEntry returnKeyType="send" onSubmitEditing={() => {
-                formRef.current?.submitForm();
-                }} ref={passwordRef} />
+            <Input 
+            name="password" icon="lock" placeholder="Senha" secureTextEntry returnKeyType="send" 
+            // onSubmitEditing={() => {
+            //     formRef.current?.submitForm();
+            //     }} 
+                ref={passwordRef} />
 
-            <Button style={{flex:1, maxHeight: 60, maxWidth: '100%'}} onPress={() => {
+            <Button onPress={() => {
                 formRef.current?.submitForm();
                 }}>
                     Entrar

@@ -54,6 +54,8 @@ const SignUp: React.FC = () => {
 
             await api.post('/users', data)
 
+            console.log(data)
+
             Alert.alert('Cadastrado', 'faça login!')
 
             navigation.goBack()
@@ -66,12 +68,14 @@ const SignUp: React.FC = () => {
             // history.push('/dashboard');
 
         } catch(err) {
+            console.log(err)
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err)
 
                 formRef.current?.setErrors(errors);
 
-                return
+                console.log(errors)
+                return 
             }
 
             Alert.alert("Error Auth", "Erro na Auth")

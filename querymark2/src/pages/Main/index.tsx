@@ -1,10 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
+import {useAuth} from '../../hooks/auth'
+
 
 // import { Container } from './styles'
 
 const Main: React.FC = () => {
-    return <View style={{ flex:1, backgroundColor: '#333'}}/>
+    const {signOut} = useAuth();
+
+    return <View style={{ flex:1, backgroundColor: '#333'}}>
+            <Button title="Sair" onPress={signOut}/>
+
+    </View>
 }
 
 export default Main;
