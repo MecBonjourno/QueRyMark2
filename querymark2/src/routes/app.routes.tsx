@@ -8,7 +8,7 @@ import TabRoutes from './tab.routes';
 import Main from '../pages/Main'
 import Identity from '../pages/Identity'
 import Feed from '../pages/Feed';
-import Profile from '../pages/Profile';
+import Profile from '../pages/ProfileOld';
 import Hidden from '../pages/Hidden';
 
 const App = createStackNavigator();

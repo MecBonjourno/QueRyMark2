@@ -1,4 +1,4 @@
-import React, {useRef, useCallback} from 'react';
+import React, {useRef, useCallback, useState} from 'react';
 import { Image, View, KeyboardAvoidingView, Platform, ScrollView, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 // import Icon from 'react-native-vector-icons/Feather'
@@ -20,7 +20,12 @@ import Button from '../../components/Button'
 
 import logoImg from '../../assets/logoWhite.png'
 
-import { Container, Title, BackToSignIn, BackToSignInText } from './styles'
+import { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from "react-native-fbsdk";
+
+
+import { Container, Title, BackToSignIn, BackToSignInText, Text } from './styles'
+
+
 
 interface SignUpFormData {
     name: string,
@@ -31,11 +36,47 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
     const navigation = useNavigation();
     const formRef = useRef<FormHandles>(null);
+    const [user , setUser] = useState('')
 
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
 
-  
+
+    const getUserCallback = async(error: any,result: any) => {
+        try{
+
+
+        if(error){
+            console.log('getUserError',error);
+        } else { 
+    
+            // const data = result;
+            console.log(result)
+
+            await api.post('/users', result)
+
+            Alert.alert('Cadastrado', 'faça login!')
+
+        }
+        }catch(error){
+            console.log(error)
+                if (error instanceof Yup.ValidationError) {
+                    const errors = getValidationErrors(error)
+
+                    console.log(errors)
+                    return 
+                }
+        }
+    }
+
+    const getUserInfo = (token) => {
+        const infoRequest = new GraphRequest('/me', { accesToken: token, parameters: {
+            fields: { string: 'email, name'} 
+        }}, getUserCallback);
+        // 
+        new GraphRequestManager().addRequest(infoRequest).start();
+
+    }
 
     const handleSignUp = useCallback(async (data: SignUpFormData) => {
         try{
@@ -52,20 +93,14 @@ const SignUp: React.FC = () => {
                 abortEarly: false,
             }); 
 
+            console.log(data)
+            
             await api.post('/users', data)
 
-            console.log(data)
 
             Alert.alert('Cadastrado', 'faça login!')
 
             navigation.goBack()
-
-            // await signIn({
-            //     email: data.email,
-            //     password: data.password
-            // });
-
-            // history.push('/dashboard');
 
         } catch(err) {
             console.log(err)
@@ -79,15 +114,10 @@ const SignUp: React.FC = () => {
             }
 
             Alert.alert("Error Auth", "Erro na Auth")
-            
-            // addToast({
-            //     type: 'error',
-            //     title: 'Erro na Autenticação',
-            //     description: 'Ocorreu um erro na Autenticação'
-            // })
         } 
-      
     }, [navigation]);
+
+
 
     return (
         <>
@@ -107,9 +137,30 @@ const SignUp: React.FC = () => {
 
             <Input ref={passwordInputRef} secureTextEntry name="password" icon="lock" placeholder="Senha" textContentType="newPassword" returnKeyType="send" onSubmitEditing={() => formRef.current?.submitForm()} />
 
-            <Button style={{flex:1, maxHeight: 60, maxWidth: '100%'}} onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
+            <Button onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
 
           </Form>
+
+          <LoginButton 
+              permissions={["public_profile", "email"]}
+              onLoginFinished={async (error, result) => {
+                if (error) {
+                  console.log("auth error", error);
+                } else if (result.isCancelled) {
+                  console.log("isCancelled");
+                } else {
+                  const accessData = await AccessToken.getCurrentAccessToken();
+                  console.log("accessData", accessData);
+
+                    getUserInfo(accessData?.accessToken);
+                }
+              }}
+            />
+
+
+            <Text>{user.name}</Text>
+            <Text>{user.email}</Text>
+            
 
         </Container>
 

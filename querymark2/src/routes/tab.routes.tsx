@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Main from '../pages/Main'
 import Identity from '../pages/Identity'
 import Feed from '../pages/Feed';
-import Profile from '../pages/Profile';
+import Profile from '../pages/ProfileOld';
 
 const Tab = createBottomTabNavigator();
 

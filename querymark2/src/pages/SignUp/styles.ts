@@ -6,6 +6,8 @@ export const Container = styled.View`
     align-items: center;
     justify-content:center;
     padding: 0 30px 100px; 
+    background-color: #1b1b1b;
+
 `;
 
 export const Title = styled.Text`
@@ -15,24 +17,30 @@ export const Title = styled.Text`
     margin: 64px 0 24px;
 `;
 
+export const Text = styled.Text`
+font-size: 20px;
+    color: #f4ede8;
+`;
+
 export const BackToSignIn = styled.TouchableOpacity`
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    background: #312e38;
+    background: #343434;
+
     border-top-width: 1px;
     border-color: #232129;
     padding: 16px 0 ${4 + getBottomSpace()}px;
-
     justify-content: center;
     align-items: center;
     flex-direction: row;
     `;
 
 export const BackToSignInText = styled.Text`
-    color: #FFF;
+    color: #CBCBCB;
+
     font-size: 18px;
     /* font-family: 'RobotoSlab-Regular'; */
-    margin-left: 16px;
+    /* margin-left: 16px; */
     `;

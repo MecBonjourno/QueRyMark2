@@ -9,8 +9,6 @@ import getValidationErrors from '../../utils/getValidationErrors'
 
 import * as Yup from 'yup';
 
-
-
 import { Form } from '@unform/mobile'
 import { FormHandles } from '@unform/core'
 
@@ -121,7 +119,6 @@ const SignIn: React.FC = () => {
         </Container>
 
         <CreateAccountButton onPress={()=> navigation.navigate("SignUp")}>
-            {/* <Icon name="log-in" size={20} color="#ff9000" /> */}
             <CreateAccountButtonText>Criar uma Conta</CreateAccountButtonText>
         </CreateAccountButton>
         </ScrollView>

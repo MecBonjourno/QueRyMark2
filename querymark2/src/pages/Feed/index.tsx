@@ -1,18 +1,25 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import {  Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// import BasicElementsComponent from '../../components/Element/BasicElementsComponent'
+// import {Sera} from '../../components/Card'
 
 
-// import { Container } from './styles'
+
+
+import { Container, View } from './styles'
 
 const Feed: React.FC = () => {
 const navigation = useNavigation()
 
     return (
-     <View style={{ flex:1, backgroundColor: '#857623'}}>
-        <Text> Feed </Text>
-        <Button title="Eu estava escondido" onPress={() => navigation.navigate('Hidden')}/>
-        </View>
+        <Container>
+
+
+            <Text>Feed</Text>
+            {/* <Sera /> */}
+
+        </Container>
         )
 }
 
